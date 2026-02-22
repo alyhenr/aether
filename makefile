@@ -1,0 +1,1 @@
+gcc -c ./src/server.c -o server && gcc -c ./src/cli.c -o cli && gcc -c ./src/utils.c -o utils
