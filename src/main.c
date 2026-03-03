@@ -4,9 +4,10 @@
 #include <stdlib.h> 
 #include <sys/types.h>
 #include <signal.h>
-#include "server.h"
-#include "cli.h"
-#include "utils.h"
+
+#include "./include/server.h"
+#include "./include/cli.h"
+#include "./include/utils.h"
 
 enum AppType {
     CLI,
