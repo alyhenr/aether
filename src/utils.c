@@ -5,6 +5,9 @@
 #include <unistd.h>
 #include <stdlib.h> 
 #include <sys/types.h>
+
+extern char **environ; 
+
 void unix_err(char *msg) 
 {
     fprintf(stderr, "%s: %s\n", msg, strerror(errno));
@@ -17,13 +20,21 @@ int Fork(void)
 
     if ((pid = fork()) < 0) {
         unix_err("fork error");
-    } else if (pid > 0) {
-        printf("Parent: my PID = %d, child PID = %d\n",
-               getpid(), pid);
-    } else {
-        printf("Child: my PID = %d, parent PID = %d\n",
-               getpid(), getppid());
     }
 
     return pid;
+}
+
+void Execve(const char *pathname, char *const argv[], char *const envp[])
+{
+    if (envp[0] != NULL) {
+        printf("OK");
+    }
+    printf("Calling execve for binary at: %s\n", pathname);
+    fflush(stdout);
+    
+    if (execve(pathname, argv, environ) < 0) {
+        fprintf(stderr, "execve failed: %s\n", strerror(errno));
+        exit(1);
+    }
 }
