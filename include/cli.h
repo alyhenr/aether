@@ -1,1 +1,1 @@
-void startCLI();
+void startCLI(void);

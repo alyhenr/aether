@@ -5,16 +5,16 @@
 #include <sys/types.h>
 #include <signal.h>
 
-#include "./include/server.h"
-#include "./include/cli.h"
-#include "./include/utils.h"
+#include "server.h"
+#include "cli.h"
+#include "utils.h"
 
 enum AppType {
     CLI,
     SERVER
 };
 
-int main(int argc, char *argv[], char* envp[]) 
+int main(int argc, char *argv[]) 
 {   
     enum AppType appType;
     if (argc == 1) {
@@ -30,6 +30,7 @@ int main(int argc, char *argv[], char* envp[])
         }
     }
 
+    printf("App type: %u", appType);
     // printf("%s", argv[0]);
     // Fork();
     // Fork();

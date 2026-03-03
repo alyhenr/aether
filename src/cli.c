@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 
-void startCLI() {
+void startCLI(void) {
     printf("--- Aether is running ---\n");
     printf("You can start running your binaries in a safe environment.\nWaiting command...\n>");
 

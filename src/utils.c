@@ -11,7 +11,7 @@ void unix_err(char *msg)
     exit(0);
 }
 
-int Fork() 
+int Fork(void) 
 {
     pid_t pid;
 

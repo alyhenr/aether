@@ -1,3 +1,3 @@
-void startServer() {
+void startServer(void) {
     
 }
