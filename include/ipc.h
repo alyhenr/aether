@@ -2,6 +2,7 @@
 #define IPC_H
 
 #include <stdio.h>
+#include <unistd.h>
 /*
  * Creates a unidirectional data channel.
  * Populates pipefd[0] for reading and pipefd[1] for writing.

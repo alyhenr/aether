@@ -20,10 +20,10 @@ int main(void) {
     worker.state = WORKER_STATE_PENDING;
 
     // 3. Setup the Communication Channels
-    // if (ipc_init_pipes(worker.stdout_pipe) == -1) {
-    //     perror("Failed to initialize IPC pipes");
-    //     exit(EXIT_FAILURE);
-    // }
+    if (ipc_init_pipes(worker.stdout_pipe) == -1) {
+        perror("Failed to initialize IPC pipes");
+        exit(EXIT_FAILURE);
+    }
 
     // 4. Spawn the Worker
     printf("[\033[34mAETHER\033[0m] Spawning worker for command: %s\n", job.command);
@@ -37,12 +37,12 @@ int main(void) {
     printf("[\033[34mAETHER\033[0m] Capturing worker output:\n");
     printf("----------------------------------------\n");
     
-    // ipc_parent_capture_output(worker.stdout_pipe);
+    ipc_parent_capture_output(worker.stdout_pipe);
     
     printf("\n----------------------------------------\n");
 
     // 6. Wait for the final status
-    if (worker.pid > 0) { //Parent
+    if (worker.pid > 0) {
         supervisor_wait_and_autopsy(&worker);
     }
 

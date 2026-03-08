@@ -5,6 +5,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "aether_types.h"
+#include "utils.h"
+#include "ipc.h"
 
 /*
  * Calls fork(). In the child, it triggers the IPC wiring and calls execve().

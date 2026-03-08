@@ -3,6 +3,7 @@
 #include <sys/wait.h>
 #include "aether_types.h"
 #include "utils.h"
+#include "ipc.h"
 /*
  * Calls fork(). In the child, it triggers the IPC wiring and calls execve().
  * In the parent, it returns the new child's PID.
@@ -14,6 +15,7 @@ pid_t supervisor_spawn_worker(aether_worker_t *worker)
     if ((pid_child = Fork()) == 0) {
         //Child
         char *envp[] = {NULL};
+        ipc_child_wire_stdout(worker->stdout_pipe);
         Execve(worker->job->command, worker->job->args, envp);
     }
     return pid_child;
@@ -27,14 +29,6 @@ void supervisor_wait_and_autopsy(aether_worker_t *worker)
 {
     worker->state = WORKER_STATE_RUNNING;
     printf("[\033[32mSUPERVISOR\033[0m] Child spawned with PID %d\n", worker->pid);
-
-    // char buffer[1024];
-    // ssize_t bytes_read;
-    
-    printf("[\033[34mAETHER\033[0m] Capturing worker output:\n");
-    printf("----------------------------------------\n");
-    
-    printf("\n----------------------------------------\n");
 
     int status;
     // The Wait.
