@@ -29,6 +29,7 @@ void supervisor_wait_and_autopsy(aether_worker_t *worker)
 {
     worker->state = WORKER_STATE_RUNNING;
     printf("[\033[32mSUPERVISOR\033[0m] Child spawned with PID %d\n", worker->pid);
+    fflush(stdout);
 
     int status;
     // The Wait.
@@ -43,9 +44,10 @@ void supervisor_wait_and_autopsy(aether_worker_t *worker)
         int exit_status = WEXITSTATUS(status);
         worker->state = WORKER_STATE_FINISHED_SUCCESS;
         printf("[\033[34mAETHER\033[0m] Child %d exited with status %d\n", worker->pid, exit_status);
-        
+        fflush(stdout);
         if (exit_status != 0) {
             printf("[\033[31m!\033[0m] Note: Command returned an error code.\n");
+            fflush(stdout);
         }
     } 
     else if (WIFSIGNALED(status)) {
@@ -53,5 +55,6 @@ void supervisor_wait_and_autopsy(aether_worker_t *worker)
         worker->state = WORKER_STATE_FINISHED_ERROR;
         printf("[\033[31m!\033[0m] Child %d terminated by signal %d\n", 
                 worker->pid, WTERMSIG(status));
+        fflush(stdout);
     }
 }
