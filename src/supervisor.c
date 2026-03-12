@@ -11,12 +11,14 @@
 pid_t supervisor_spawn_worker(aether_worker_t *worker)
 {
     pid_t pid_child;
-    
     if ((pid_child = Fork()) == 0) {
         //Child
         char *envp[] = {NULL};
         ipc_child_wire_stdout(worker->stdout_pipe);
         Execve(worker->job->command, worker->job->args, envp);
+    } else {
+        printf("[\033[32mSUPERVISOR\033[0m] Child spawned with PID %d\n", worker->pid);
+        fflush(stdout);
     }
     return pid_child;
 }
@@ -28,8 +30,6 @@ pid_t supervisor_spawn_worker(aether_worker_t *worker)
 void supervisor_wait_and_autopsy(aether_worker_t *worker)
 {
     worker->state = WORKER_STATE_RUNNING;
-    printf("[\033[32mSUPERVISOR\033[0m] Child spawned with PID %d\n", worker->pid);
-    fflush(stdout);
 
     int status;
     // The Wait.

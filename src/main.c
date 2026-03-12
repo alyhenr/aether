@@ -29,16 +29,7 @@ int main(void) {
     printf("[\033[34mAETHER\033[0m] Spawning worker for command: %s\n", job.command);
     worker.pid = supervisor_spawn_worker(&worker);
 
-    // 5. Wait for the final status
-    if (worker.pid > 0) {
-        supervisor_wait_and_autopsy(&worker);
-    }
-
-    if (worker.pid < 0) {
-        exit(EXIT_FAILURE); // Error already printed by supervisor
-    }
-
-    // 6. Parent captures output while the child is running
+    // 5. Parent captures output while the child is running
     printf("[\033[34mAETHER\033[0m] Capturing worker output:\n");
     printf("----------------------------------------\n");
     fflush(stdout);
@@ -47,9 +38,19 @@ int main(void) {
     
     printf("\n----------------------------------------\n");
 
+    // 6. Wait for the final status
+    if (worker.pid > 0) {
+        supervisor_wait_and_autopsy(&worker);
+    }
+
+    if (worker.pid < 0) {
+        exit(EXIT_FAILURE); // Error already printed by supervisor
+    }
 
     printf("[\033[34mAETHER\033[0m] Supervisor shutting down cleanly.\n");
     fflush(stdout);
+
+
 
     return 0;
 }
